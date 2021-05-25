@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  as-api:
+    container_name: ${CONTAINER_NAME_API}
+    build: .docker/api
+    env_file:
+      - .env
+    ports:
+      - "${PORT_API}:80"
+    volumes:
+      - .docker/api/api.conf:/etc/apache2/sites-enabled/api.conf
+      - ./:/var/www/html/
+    environment:
+      DOCKER_HOST_IP: ${DOCKER_HOST_IP}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PORT: ${PORT_DB}
+    network_mode: bridge
+    links:
+      - as-db
+    tty: true
+  as-db:
+    container_name: ${CONTAINER_NAME_DB}
+    image: postgres
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "${PORT_DB}:5432"
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_DB
+      - POSTGRES_PASSWORD
+
+    network_mode: bridge
+    tty: true
+  as-doc:
+    container_name: ${CONTAINER_NAME_DOC}
+    image: swaggerapi/swagger-ui
+    ports:
+      - "${PORT_DOC}:8080"
+    volumes:
+      - ./swagger:/swagger
+    environment:
+      SWAGGER_JSON: /swagger/openapi.json
+    network_mode: bridge
+    tty: true
+volumes:
+  data:

@@ -1,0 +1,96 @@
+{
+    "name": "process-control/api",
+    "description": "API ProcessControl",
+    "type": "project",
+    "minimum-stability": "dev",
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laminas": {
+            "component-whitelist": [
+                "mezzio/mezzio",
+                "mezzio/mezzio-helpers",
+                "mezzio/mezzio-router",
+                "laminas/laminas-httphandlerrunner",
+                "mezzio/mezzio-fastroute"
+            ]
+        }
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "doctrine/annotations": "^1.11",
+        "doctrine/common": "^3.1",
+        "doctrine/orm": "^2.8",
+        "gustavosantos/api-core": "^1.0",
+        "gustavosantos/status-http": "^1.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "kadudutra/psr-container-doctrine": "dev-master",
+        "laminas/laminas-component-installer": "^2.1.2",
+        "laminas/laminas-config-aggregator": "^1.2",
+        "laminas/laminas-diactoros": "^2.3.0",
+        "laminas/laminas-servicemanager": "^3.4",
+        "laminas/laminas-stdlib": "^3.2.1",
+        "laminas/laminas-zendframework-bridge": "^1.0",
+        "lucasgiori/pagination-doctrine": "^1.0.1",
+        "mezzio/mezzio": "^3.2.1",
+        "mezzio/mezzio-fastroute": "^3.0.3",
+        "mezzio/mezzio-helpers": "^5.3",
+        "robmorgan/phinx": "dev-master",
+        "sentry/sdk": "dev-master",
+        "tuupola/cors-middleware": "dev-master"
+    },
+    "require-dev": {
+        "filp/whoops": "^2.7.1",
+        "laminas/laminas-coding-standard": "^2.1",
+        "laminas/laminas-development-mode": "^3.2",
+        "nunomaduro/phpinsights": "dev-master",
+        "phpspec/prophecy": "^1.10.3",
+        "phpspec/prophecy-phpunit": "2.0.x-dev",
+        "phpunit/phpunit": "^9.3.7",
+        "roave/security-advisories": "dev-master",
+        "squizlabs/php_codesniffer": "^3.5",
+        "zircote/swagger-php": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/App/src/",
+            "Infrastructure\\": "src/Infrastructure/src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AppTest\\": "src/App/test/"
+        }
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "@development-enable"
+        ],
+        "development-disable": "laminas-development-mode disable",
+        "development-enable": "laminas-development-mode enable",
+        "development-status": "laminas-development-mode status",
+        "mezzio": "mezzio --ansi",
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "clear-config-cache": "php bin/clear-config-cache.php",
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "serve": "php -S 0.0.0.0:8080 -t public/",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "test-coverage-html": "phpunit --colors=always --coverage-html report",
+        "insights": "phpinsights analyse src/ --fix",
+        "phinx": "vendor/bin/phinx",
+        "migrate-seed":[
+          "vendor/bin/phinx migrate -c config/autoload/migrations.global.php",
+          "vendor/bin/phinx seed:run -c config/autoload/migrations.global.php"
+        ],
+        "migrate": "vendor/bin/phinx migrate -c config/autoload/migrations.global.php",
+        "seed": "vendor/bin/phinx seed:run -c config/autoload/migrations.global.php",
+        "create-seed": "vendor/bin/phinx seed:create -c config/autoload/migrations.global.php"
+    }
+}

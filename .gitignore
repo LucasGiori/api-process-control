@@ -1,0 +1,27 @@
+### PhpStorm ###
+.idea/*
+
+### vscode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+### PHPUnit ###
+phpunit.xml
+.phpunit.result.cache
+.phpunit.cache
+clover.xml
+report/
+
+### CodeSniffer ###
+.phpcs-cache
+
+### Composer ###
+composer.phar
+vendor/*
+
+### Keys ###
+.env
