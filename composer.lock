@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d480ed8cdaeeebdcebb5c04b94b8329",
+    "content-hash": "66c46c28de274922a0c56a17bee1413f",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -3159,16 +3159,16 @@
         },
         {
             "name": "lucasgiori/pagination-doctrine",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LucasGiori/pagination-doctrine.git",
-                "reference": "0e16ba88289ef6f7ef4e14bd94a3e1dd78a75ce8"
+                "reference": "e55324034b62e5bf9230bcde069ce80b33d78707"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LucasGiori/pagination-doctrine/zipball/0e16ba88289ef6f7ef4e14bd94a3e1dd78a75ce8",
-                "reference": "0e16ba88289ef6f7ef4e14bd94a3e1dd78a75ce8",
+                "url": "https://api.github.com/repos/LucasGiori/pagination-doctrine/zipball/e55324034b62e5bf9230bcde069ce80b33d78707",
+                "reference": "e55324034b62e5bf9230bcde069ce80b33d78707",
                 "shasum": ""
             },
             "require": {
@@ -3191,9 +3191,9 @@
             "description": "Doctrine pagination",
             "support": {
                 "issues": "https://github.com/LucasGiori/pagination-doctrine/issues",
-                "source": "https://github.com/LucasGiori/pagination-doctrine/tree/v1.0.2"
+                "source": "https://github.com/LucasGiori/pagination-doctrine/tree/v1.0.3"
             },
-            "time": "2021-03-29T20:20:48+00:00"
+            "time": "2021-04-21T13:33:13+00:00"
         },
         {
             "name": "mezzio/mezzio",
