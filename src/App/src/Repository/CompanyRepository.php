@@ -26,6 +26,16 @@ class CompanyRepository extends PaginatedRepository implements CompanyRepository
         return $this->find($id);
     }
 
+    /**
+     * @return Company|object|null
+     */
+    public function findByCnpj(string $cnpj): Company|null
+    {
+        return $this->findOneBy([
+            "cnpj" => $cnpj
+        ]);
+    }
+
     public function findWithPagination(Params $filter): PaginatedArrayCollection|null
     {
         return $this->findPageWithDTO(params: $filter);
@@ -56,6 +66,8 @@ class CompanyRepository extends PaginatedRepository implements CompanyRepository
         try {
             $this->getEntityManager()->persist($company);
             $this->getEntityManager()->flush();
+
+            return $company;
         } catch (ConstraintViolationException $e) {
             throw new UpdateCompanyException(
                 message: "Não foi possível cadastrar a empresa uma constraint foi violada!",

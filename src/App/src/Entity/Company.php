@@ -60,7 +60,7 @@ class Company
      * @Type("App\Entity\City")
      * @Assert\NotNull(message="A Cidade é obrigatória")
      */
-    private City|null $city;
+    private City|null $city = null;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\CompanyType")
@@ -69,7 +69,7 @@ class Company
      * @Type("App\Entity\CompanyType")
      * @Assert\NotNull(message="O tipo da empresa é obrigatória")
      */
-    private CompanyType|null $companyType;
+    private CompanyType|null $companyType = null;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Situation")

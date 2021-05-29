@@ -20,6 +20,11 @@ class CompanyService implements CompanyServiceInterface
         return $this->companyRepositoryInterface->findById(id: $id);
     }
 
+    public function findByCnpj(string $cnpj): Company|null
+    {
+        return $this->companyRepositoryInterface->findByCnpj(cnpj: $cnpj);
+    }
+
     public function findWithPagination(Params $filter): PaginatedArrayCollection|null
     {
         return $this->companyRepositoryInterface->findWithPagination(filter: $filter);

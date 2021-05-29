@@ -12,11 +12,13 @@ use App\Api\Handler\HomePageHandler;
 use App\Api\Handler\PingHandler;
 use App\Api\Handler\GetStateHandler;
 use App\Api\Handler\PostCompanyHandler;
+use App\Api\Handler\PutCompanyHandler;
 use App\Api\Middleware\GetCityMiddleware;
 use App\Api\Middleware\GetCompanyMiddleware;
 use App\Api\Middleware\GetCompanyTypeMiddleware;
 use App\Api\Middleware\GetStateMiddleware;
 use App\Api\Middleware\PostCompanyMiddleware;
+use App\Api\Middleware\PutCompanyMiddleware;
 use Mezzio\Application;
 use Psr\Container\ContainerInterface;
 
@@ -34,13 +36,11 @@ class RoutesDelegator
         $app->get('/cities', [GetCityMiddleware::class, GetCityHandler::class], 'cities');
 
         $app->get('/companies', [GetCompanyMiddleware::class, GetCompanyHandler::class], 'company.get');
+        $app->put('/companies/{id:\d+}', [PutCompanyMiddleware::class, PutCompanyHandler::class], 'company.put');
         $app->post('/companies', [PostCompanyMiddleware::class, PostCompanyHandler::class], 'company.post');
         $app->delete('/companies/{id:\d+}', [DeleteCompanyHandler::class], 'company.delete');
 
-        $app->get('/companies/types', [
-            GetCompanyTypeMiddleware::class,
-            GetCompanyTypeHandler::class
-        ], 'company.types.get');
+        $app->get('/companies/types', [GetCompanyTypeMiddleware::class,GetCompanyTypeHandler::class], 'company.types.get');
 
         return $app;
     }

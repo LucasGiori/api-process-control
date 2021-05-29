@@ -16,6 +16,8 @@ use App\Api\Handler\GetStateHandler;
 use App\Api\Handler\GetStateHandlerFactory;
 use App\Api\Handler\PostCompanyHandler;
 use App\Api\Handler\PostCompanyHandlerFactory;
+use App\Api\Handler\PutCompanyHandler;
+use App\Api\Handler\PutCompanyHandlerFactory;
 use App\Api\Middleware\GetCityMiddleware;
 use App\Api\Middleware\GetCityMiddlewareFactory;
 use App\Api\Middleware\GetCompanyMiddleware;
@@ -26,6 +28,8 @@ use App\Api\Middleware\GetStateMiddleware;
 use App\Api\Middleware\GetStateMiddlewareFactory;
 use App\Api\Middleware\PostCompanyMiddleware;
 use App\Api\Middleware\PostCompanyMiddlewareFactory;
+use App\Api\Middleware\PutCompanyMiddleware;
+use App\Api\Middleware\PutCompanyMiddlewareFactory;
 use App\Service\CityService;
 use App\Service\CityServiceFactory;
 use App\Service\CompanyService;
@@ -79,9 +83,11 @@ class ConfigProvider
                 GetCompanyHandler::class              => GetCompanyHandlerFactory::class,
                 PostCompanyMiddleware::class          => PostCompanyMiddlewareFactory::class,
                 PostCompanyHandler::class             => PostCompanyHandlerFactory::class,
+                PutCompanyMiddleware::class           => PutCompanyMiddlewareFactory::class,
+                PutCompanyHandler::class              => PutCompanyHandlerFactory::class,
                 DeleteCompanyHandler::class           => DeleteCompanyHandlerFactory::class,
                 GetCompanyTypeMiddleware::class       => GetCompanyTypeMiddlewareFactory::class,
-                GetCompanyTypeHandler::class          => GetCompanyTypeHandlerFactory::class
+                GetCompanyTypeHandler::class          => GetCompanyTypeHandlerFactory::class,
             ],
         ];
     }

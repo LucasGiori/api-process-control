@@ -9,14 +9,14 @@ use ApiCore\Response\JsonResponseCore;
 use App\Entity\Company;
 use App\Service\CompanyServiceInterface;
 use Http\StatusHttp;
-use Infrastructure\Domain\Exceptions\ValidationException;
+use Infrastructure\Domain\Exceptions\BaseException;
 use Infrastructure\Service\Logs\Sentry\SentryService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
 
-class PostCompanyHandler implements RequestHandlerInterface
+class PutCompanyHandler implements RequestHandlerInterface
 {
     private Throwable|null $exception = null;
 
@@ -30,21 +30,9 @@ class PostCompanyHandler implements RequestHandlerInterface
             /** @var Company $company */
             $company = $request->getAttribute("company");
 
-            if(!is_null($this->companyServiceInterface->findByCnpj(cnpj: $company->getCnpj()))) {
-                throw new ValidationException(
-                    message: "Já existe uma empresa com este cnpj cadastrado!",
-                    statusCode: StatusHttp::CONFLICT
-                );
-            }
+            $company = $this->companyServiceInterface->update(company: $company);
 
-            $this->companyServiceInterface->save(company: $company);
-
-            return new JsonResponseCore(
-                data: [
-                    "message"=>"Empresa cadastrada com sucesso!"
-                ],
-                statusCode: StatusHttp::CREATED
-            );
+            return new JsonResponseCore(data: $company,statusCode: StatusHttp::OK);
         } catch (Throwable $e) {
             $this->exception = $e;
             $code = $e->getCode() != 0 ? $e->getCode() : StatusHttp::INTERNAL_SERVER_ERROR;
