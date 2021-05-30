@@ -48,7 +48,7 @@ class CompanyRepository extends PaginatedRepository implements CompanyRepository
             $this->getEntityManager()->flush();
         } catch (ConstraintViolationException $e) {
             throw new SaveCompanyException(
-                message: "Não foi possível cadastrar a empresa já existe essa empresa cadastrada!",
+                message: "Não foi possível cadastrar a empresa uma constraint foi violada!",
                 statusCode: StatusHttp::CONFLICT,
                 internalMessageError: $e->getMessage()
             );
@@ -70,7 +70,7 @@ class CompanyRepository extends PaginatedRepository implements CompanyRepository
             return $company;
         } catch (ConstraintViolationException $e) {
             throw new UpdateCompanyException(
-                message: "Não foi possível cadastrar a empresa uma constraint foi violada!",
+                message: "Não foi possível atualizar a empresa uma constraint foi violada!",
                 statusCode: StatusHttp::CONFLICT,
                 internalMessageError: $e->getMessage()
             );
