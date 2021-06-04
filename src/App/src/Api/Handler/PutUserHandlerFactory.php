@@ -7,12 +7,12 @@ namespace App\Api\Handler;
 use App\Service\UserService;
 use Psr\Container\ContainerInterface;
 
-class GetUserHandlerFactory
+class PutUserHandlerFactory
 {
-    public function __invoke(ContainerInterface $container): GetUserHandler
+    public function __invoke(ContainerInterface $container): PutUserHandler
     {
         $userService = $container->get(UserService::class);
 
-        return new GetUserHandler(userServiceInterface: $userService);
+        return new PutUserHandler(userServiceInterface: $userService);
     }
 }

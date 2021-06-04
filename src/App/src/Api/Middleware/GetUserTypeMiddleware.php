@@ -1,40 +1,39 @@
 <?php
 
 
-namespace App\Api\Handler;
+namespace App\Api\Middleware;
 
 
 use ApiCore\Exception\ExceptionCore;
 use ApiCore\Response\JsonResponseCore;
-use App\Service\StateServiceInterface;
-use App\Service\UserServiceInterface;
-use Doctrine\ORM\Query;
+use App\Entity\UserType;
 use Http\StatusHttp;
 use Infrastructure\Service\Logs\Sentry\SentryService;
-use Infrastructure\Utils\Params\MapperParamsDto;
+use Infrastructure\Utils\QueryParams\QueryParamsValidationInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
 
-class GetUserHandler implements RequestHandlerInterface
+class GetUserTypeMiddleware implements MiddlewareInterface
 {
     private Throwable|null $exception = null;
 
     public function __construct(
-        private UserServiceInterface $userServiceInterface
+        private QueryParamsValidationInterface $queryParamsValidator
     ){}
 
-    public function handle(ServerRequestInterface $request): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
-            $params = $request->getAttribute("params");
+            $queryParams = $request->getQueryParams();
 
-            $filter = MapperParamsDto::map(params: $params, hydrationMode: Query::HYDRATE_OBJECT);
+            $params = $this->queryParamsValidator->validate(
+                queryParams: $queryParams, entityName: UserType::class, validateWithSymfony: false
+            );
 
-            $users = $this->userServiceInterface->findWithPagination(filter: $filter);
-
-            return new JsonResponseCore(data: $users, statusCode: StatusHttp::OK);
+            return $handler->handle($request->withAttribute("params", $params));
         } catch (Throwable $e) {
             $this->exception = $e;
             $code = $e->getCode() != 0 ? $e->getCode() : StatusHttp::INTERNAL_SERVER_ERROR;

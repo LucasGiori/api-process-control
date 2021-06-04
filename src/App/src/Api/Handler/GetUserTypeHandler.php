@@ -6,8 +6,7 @@ namespace App\Api\Handler;
 
 use ApiCore\Exception\ExceptionCore;
 use ApiCore\Response\JsonResponseCore;
-use App\Service\StateServiceInterface;
-use App\Service\UserServiceInterface;
+use App\Service\UserTypeServiceInterface;
 use Doctrine\ORM\Query;
 use Http\StatusHttp;
 use Infrastructure\Service\Logs\Sentry\SentryService;
@@ -17,12 +16,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
 
-class GetUserHandler implements RequestHandlerInterface
+class GetUserTypeHandler implements RequestHandlerInterface
 {
     private Throwable|null $exception = null;
 
     public function __construct(
-        private UserServiceInterface $userServiceInterface
+        private UserTypeServiceInterface $userTypeServiceInterface
     ){}
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -32,9 +31,9 @@ class GetUserHandler implements RequestHandlerInterface
 
             $filter = MapperParamsDto::map(params: $params, hydrationMode: Query::HYDRATE_OBJECT);
 
-            $users = $this->userServiceInterface->findWithPagination(filter: $filter);
+            $userTypes = $this->userTypeServiceInterface->findWithPagination(filter: $filter);
 
-            return new JsonResponseCore(data: $users, statusCode: StatusHttp::OK);
+            return new JsonResponseCore(data: $userTypes, statusCode: StatusHttp::OK);
         } catch (Throwable $e) {
             $this->exception = $e;
             $code = $e->getCode() != 0 ? $e->getCode() : StatusHttp::INTERNAL_SERVER_ERROR;

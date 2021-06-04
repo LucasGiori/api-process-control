@@ -6,6 +6,8 @@ namespace App\Service;
 
 use App\Entity\UserType;
 use App\Repository\UserTypeRepositoryInterface;
+use DoctrinePagination\Collection\PaginatedArrayCollection;
+use DoctrinePagination\DTO\Params;
 
 class UserTypeService implements UserTypeServiceInterface
 {
@@ -18,4 +20,8 @@ class UserTypeService implements UserTypeServiceInterface
         return $this->userTypeRepositoryInterface->findById(id: $id);
     }
 
+    public function findWithPagination(Params $filter): PaginatedArrayCollection|null
+    {
+        return $this->userTypeRepositoryInterface->findWithPagination(filter: $filter);
+    }
 }

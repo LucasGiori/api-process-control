@@ -98,7 +98,7 @@ class User
      * @Type("App\Entity\UserType")
      * @Assert\NotNull(message="O tipo de usuário é obrigatório")
      */
-    private UserType|null $userType;
+    private UserType|null $userType = null;
 
     /**
      * @ORM\Column(name="created_at", type="datetime")

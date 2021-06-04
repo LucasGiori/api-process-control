@@ -87,7 +87,10 @@ class AuthorizationMiddleware implements MiddlewareInterface
                 );
             }
 
-            if($request->getUri()->getPath() === "/users" && $user->getUserType()->getId() !== self::ADMIN) {
+            if(
+                $request->getUri()->getPath() === "/users"
+                && in_array(needle: $request->getMethod(),haystack: ["POST","GET","DELETE"])
+                && $user->getUserType()->getId() !== self::ADMIN) {
                 throw new ValidationException(
                     message: "Este usuário não tem pemissão, para esta funcionalidade!",
                     statusCode: StatusHttp::UNAUTHORIZED
@@ -96,7 +99,12 @@ class AuthorizationMiddleware implements MiddlewareInterface
 
             $token = [
                 "decoded" => $tokenDecoded,
-                "encoded" => $keyRequest[0]
+                "encoded" => $keyRequest[0],
+                "userData" => [
+                    "id" => $user->getId(),
+                    "type" => $user->getUserType()->getId(),
+                    "email" => $user->getEmail()
+                ]
             ];
 
             return $handler->handle($request->withAttribute("token", $token));
