@@ -20,7 +20,7 @@ final class AlterProcessTableUser extends AbstractMigration
     {
         $table = $this->table("process");
         $table->addColumn('userid', 'integer', ['null' => false])
-            ->addForeignKey('userid', 'user', 'id')
+            ->addForeignKey('userid', 'users', 'id')
             ->update();
     }
 
