@@ -12,6 +12,8 @@ use App\Api\Handler\GetCompanyHandler;
 use App\Api\Handler\GetCompanyHandlerFactory;
 use App\Api\Handler\GetCompanyTypeHandler;
 use App\Api\Handler\GetCompanyTypeHandlerFactory;
+use App\Api\Handler\GetUserHandler;
+use App\Api\Handler\GetUserHandlerFactory;
 use App\Api\Handler\HomePageHandler;
 use App\Api\Handler\PingHandler;
 use App\Api\Handler\GetStateHandler;
@@ -20,10 +22,16 @@ use App\Api\Handler\PostAttorneyHandler;
 use App\Api\Handler\PostAttorneyHandlerFactory;
 use App\Api\Handler\PostCompanyHandler;
 use App\Api\Handler\PostCompanyHandlerFactory;
+use App\Api\Handler\PostUserHandler;
+use App\Api\Handler\PostUserHandlerFactory;
+use App\Api\Handler\PostUserLoginHandler;
+use App\Api\Handler\PostUserLoginHandlerFactory;
 use App\Api\Handler\PutAttorneyHandler;
 use App\Api\Handler\PutAttorneyHandlerFactory;
 use App\Api\Handler\PutCompanyHandler;
 use App\Api\Handler\PutCompanyHandlerFactory;
+use App\Api\Middleware\AuthorizationMiddleware;
+use App\Api\Middleware\AuthorizationMiddlewareFactory;
 use App\Api\Middleware\GetAttorneyMiddleware;
 use App\Api\Middleware\GetAttorneyMiddlewareFactory;
 use App\Api\Middleware\GetCityMiddleware;
@@ -34,16 +42,24 @@ use App\Api\Middleware\GetCompanyTypeMiddleware;
 use App\Api\Middleware\GetCompanyTypeMiddlewareFactory;
 use App\Api\Middleware\GetStateMiddleware;
 use App\Api\Middleware\GetStateMiddlewareFactory;
+use App\Api\Middleware\GetUserMiddleware;
+use App\Api\Middleware\GetUserMiddlewareFactory;
 use App\Api\Middleware\PostAttorneyMiddleware;
 use App\Api\Middleware\PostAttorneyMiddlewareFactory;
 use App\Api\Middleware\PostCompanyMiddleware;
 use App\Api\Middleware\PostCompanyMiddlewareFactory;
+use App\Api\Middleware\PostUserLoginMiddleware;
+use App\Api\Middleware\PostUserLoginMiddlewareFactory;
+use App\Api\Middleware\PostUserMiddleware;
+use App\Api\Middleware\PostUserMiddlewareFactory;
 use App\Api\Middleware\PutAttorneyMiddleware;
 use App\Api\Middleware\PutAttorneyMiddlewareFactory;
 use App\Api\Middleware\PutCompanyMiddleware;
 use App\Api\Middleware\PutCompanyMiddlewareFactory;
 use App\Service\AttorneyService;
 use App\Service\AttorneyServiceFactory;
+use App\Service\AuthenticationTokenService;
+use App\Service\AuthenticationTokenServiceFactory;
 use App\Service\CityService;
 use App\Service\CityServiceFactory;
 use App\Service\CompanyService;
@@ -54,6 +70,10 @@ use App\Service\SituationService;
 use App\Service\SituationServiceFactory;
 use App\Service\StateService;
 use App\Service\StateServiceFactory;
+use App\Service\UserService;
+use App\Service\UserServiceFactory;
+use App\Service\UserTypeService;
+use App\Service\UserTypeServiceFactory;
 use ContainerInteropDoctrine\EntityManagerFactory;
 use Doctrine\ORM\EntityManager;
 use Infrastructure\Container\JMSFactory;
@@ -81,8 +101,8 @@ class ConfigProvider
             'factories'  => [
                 "serializer"                          => JMSFactory::class,
                 EntityManager::class                  => EntityManagerFactory::class,
-                HomePageHandler::class => HomePageHandler::class,
-                PingHandler::class     => PingHandler::class,
+                HomePageHandler::class                => HomePageHandler::class,
+                PingHandler::class                    => PingHandler::class,
                 ValidationSymfony::class              => ValidationSymfonyFactory::class,
                 CityService::class                    => CityServiceFactory::class,
                 CompanyService::class                 => CompanyServiceFactory::class,
@@ -108,7 +128,17 @@ class ConfigProvider
                 GetAttorneyMiddleware::class          => GetAttorneyMiddlewareFactory::class,
                 GetAttorneyHandler::class             => GetAttorneyHandlerFactory::class,
                 PutAttorneyMiddleware::class          => PutAttorneyMiddlewareFactory::class,
-                PutAttorneyHandler::class             => PutAttorneyHandlerFactory::class
+                PutAttorneyHandler::class             => PutAttorneyHandlerFactory::class,
+                UserService::class                    => UserServiceFactory::class,
+                UserTypeService::class                => UserTypeServiceFactory::class,
+                PostUserMiddleware::class             => PostUserMiddlewareFactory::class,
+                PostUserHandler::class                => PostUserHandlerFactory::class,
+                GetUserMiddleware::class              => GetUserMiddlewareFactory::class,
+                GetUserHandler::class                 => GetUserHandlerFactory::class,
+                PostUserLoginMiddleware::class        => PostUserLoginMiddlewareFactory::class,
+                PostUserLoginHandler::class           => PostUserLoginHandlerFactory::class,
+                AuthenticationTokenService::class     => AuthenticationTokenServiceFactory::class,
+                AuthorizationMiddleware::class        => AuthorizationMiddlewareFactory::class
             ],
         ];
     }

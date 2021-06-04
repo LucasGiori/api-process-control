@@ -9,20 +9,28 @@ use App\Api\Handler\GetAttorneyHandler;
 use App\Api\Handler\GetCityHandler;
 use App\Api\Handler\GetCompanyHandler;
 use App\Api\Handler\GetCompanyTypeHandler;
+use App\Api\Handler\GetUserHandler;
 use App\Api\Handler\HomePageHandler;
 use App\Api\Handler\PingHandler;
 use App\Api\Handler\GetStateHandler;
 use App\Api\Handler\PostAttorneyHandler;
 use App\Api\Handler\PostCompanyHandler;
+use App\Api\Handler\PostUserHandler;
+use App\Api\Handler\PostUserLoginHandler;
 use App\Api\Handler\PutAttorneyHandler;
 use App\Api\Handler\PutCompanyHandler;
+use App\Api\Middleware\AuthorizationMiddleware;
 use App\Api\Middleware\GetAttorneyMiddleware;
 use App\Api\Middleware\GetCityMiddleware;
 use App\Api\Middleware\GetCompanyMiddleware;
 use App\Api\Middleware\GetCompanyTypeMiddleware;
 use App\Api\Middleware\GetStateMiddleware;
+use App\Api\Middleware\GetUserMiddleware;
 use App\Api\Middleware\PostAttorneyMiddleware;
 use App\Api\Middleware\PostCompanyMiddleware;
+use App\Api\Middleware\PostUserLoginMiddleware;
+use App\Api\Middleware\PostUserMiddleware;
+use App\Api\Middleware\PostUserMiddlewareFactory;
 use App\Api\Middleware\PutAttorneyMiddleware;
 use App\Api\Middleware\PutCompanyMiddleware;
 use Mezzio\Application;
@@ -36,7 +44,12 @@ class RoutesDelegator
         $app = $callback();
 
         $app->get('/', [HomePageHandler::class], 'home');
-        $app->get('/ping', [PingHandler::class], 'ping');//
+        $app->get('/ping', [PingHandler::class], 'ping');
+
+        $app->post('/login', [PostUserLoginMiddleware::class, PostUserLoginHandler::class], 'login.get');
+
+        $app->get('/users', [AuthorizationMiddleware::class, GetUserMiddleware::class, GetUserHandler::class], 'users.get');
+        $app->post('/users', [AuthorizationMiddleware::class, PostUserMiddleware::class, PostUserHandler::class], 'users.post');
 
         $app->get('/states', [GetStateMiddleware::class, GetStateHandler::class], 'states');
         $app->get('/cities', [GetCityMiddleware::class, GetCityHandler::class], 'cities');
