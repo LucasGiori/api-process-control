@@ -18,6 +18,7 @@ class State
      * @ORM\GeneratedValue("IDENTITY")
      *
      * @Type("int")
+     * @Assert\NotNull(message="O id é obrigatório")
      */
     private int $id;
 

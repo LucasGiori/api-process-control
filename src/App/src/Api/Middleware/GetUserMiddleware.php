@@ -6,7 +6,7 @@ namespace App\Api\Middleware;
 
 use ApiCore\Exception\ExceptionCore;
 use ApiCore\Response\JsonResponseCore;
-use App\Entity\CompanyType;
+use App\Entity\User;
 use Http\StatusHttp;
 use Infrastructure\Service\Logs\Sentry\SentryService;
 use Infrastructure\Utils\QueryParams\QueryParamsValidationInterface;
@@ -16,7 +16,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
 
-class GetCompanyTypeMiddleware implements MiddlewareInterface
+class GetUserMiddleware implements MiddlewareInterface
 {
     private Throwable|null $exception = null;
 
@@ -30,9 +30,7 @@ class GetCompanyTypeMiddleware implements MiddlewareInterface
             $queryParams = $request->getQueryParams();
 
             $params = $this->queryParamsValidator->validate(
-                queryParams: $queryParams,
-                entityName: CompanyType::class,
-                validateWithSymfony: false
+                queryParams: $queryParams, entityName: User::class, validateWithSymfony: false
             );
 
             return $handler->handle($request->withAttribute("params", $params));

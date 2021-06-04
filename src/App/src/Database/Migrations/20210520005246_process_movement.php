@@ -40,7 +40,7 @@ final class ProcessMovement extends AbstractMigration
             ->addForeignKey('companyid', 'company', 'id')
             ->addForeignKey('officeid', 'company', 'id')
             ->addForeignKey('attorneyid', 'attorney', 'id')
-            ->addForeignKey('userid', 'user', 'id')
+            ->addForeignKey('userid', 'users', 'id')
             ->create();
     }
 }

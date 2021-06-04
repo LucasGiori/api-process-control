@@ -17,7 +17,7 @@ class UserType extends AbstractSeed
     {
         $situation = [
             ['description' => 'ADMIN'],
-            ['description' => 'ADMINISTRATIVO'],
+            ['description' => 'USUÁRIO'],
         ];
 
         $this->insert("usertype", $situation);

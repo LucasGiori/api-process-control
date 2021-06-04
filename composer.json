@@ -23,6 +23,7 @@
         "doctrine/annotations": "^1.11",
         "doctrine/common": "^3.1",
         "doctrine/orm": "^2.8",
+        "firebase/php-jwt": "dev-master",
         "gustavosantos/api-core": "^1.0",
         "gustavosantos/status-http": "^1.0",
         "guzzlehttp/guzzle": "^7.0",

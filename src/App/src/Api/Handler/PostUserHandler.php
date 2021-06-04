@@ -1,41 +1,40 @@
 <?php
 
 
-namespace App\Api\Middleware;
+namespace App\Api\Handler;
 
 
 use ApiCore\Exception\ExceptionCore;
 use ApiCore\Response\JsonResponseCore;
-use App\Entity\CompanyType;
+use App\Entity\User;
+use App\Service\UserServiceInterface;
 use Http\StatusHttp;
 use Infrastructure\Service\Logs\Sentry\SentryService;
-use Infrastructure\Utils\QueryParams\QueryParamsValidationInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
 
-class GetCompanyTypeMiddleware implements MiddlewareInterface
+class PostUserHandler implements RequestHandlerInterface
 {
     private Throwable|null $exception = null;
 
     public function __construct(
-        private QueryParamsValidationInterface $queryParamsValidator
+        private UserServiceInterface $userServiceInterface
     ){}
 
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         try {
-            $queryParams = $request->getQueryParams();
+            /** @var User $user */
+            $user = $request->getAttribute("user");
 
-            $params = $this->queryParamsValidator->validate(
-                queryParams: $queryParams,
-                entityName: CompanyType::class,
-                validateWithSymfony: false
+            $this->userServiceInterface->save(user: $user);
+
+            return new JsonResponseCore(
+                data: ["message"=>"Usuário cadastrado com sucesso!"],
+                statusCode: StatusHttp::CREATED
             );
-
-            return $handler->handle($request->withAttribute("params", $params));
         } catch (Throwable $e) {
             $this->exception = $e;
             $code = $e->getCode() != 0 ? $e->getCode() : StatusHttp::INTERNAL_SERVER_ERROR;

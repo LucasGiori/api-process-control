@@ -3,15 +3,15 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Type;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="situation")
- * @ORM\Entity(repositoryClass="App\Repository\SituationRepository")
+ * @ORM\Table(name="usertype")
+ * @ORM\Entity(repositoryClass="App\Repository\UserTypeRepository")
  */
-class Situation
+class UserType
 {
     /**
      * @ORM\Id
@@ -27,16 +27,17 @@ class Situation
      * @ORM\Column(name="description", type="string", nullable=false)
      *
      * @Type("string")
-     * @Assert\NotNull(message="A descrição da situação não pode ser nula")
+     * @Assert\NotNull(message="A descrição é obrigatória")
+     * @Assert\NotBlank(message="A descrição não pode ser vazia")
      */
-    private string|null $description;
+    private string|null $description = null;
 
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id): Situation
+    public function setId(int $id): UserType
     {
         $this->id = $id;
         return $this;
@@ -47,9 +48,11 @@ class Situation
         return $this->description;
     }
 
-    public function setDescription(string|null $description): Situation
+    public function setDescription(string|null $description): UserType
     {
         $this->description = $description;
         return $this;
     }
+
+
 }

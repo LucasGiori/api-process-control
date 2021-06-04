@@ -21,6 +21,7 @@ class Attorney
      * @ORM\GeneratedValue("IDENTITY")
      *
      * @Type("int")
+     * @Assert\NotNull(message="O id é obrigatório")
      */
     private int $id;
 
@@ -58,7 +59,7 @@ class Attorney
     private string|null $oab = null;
 
     /**
-     * @ORM\Column(name="telefone", type="string", nullable=false)
+     * @ORM\Column(name="phone", type="string", nullable=false)
      *
      * @Type("string")
      * @Assert\NotNull(message="O telefone  é obrigatório")

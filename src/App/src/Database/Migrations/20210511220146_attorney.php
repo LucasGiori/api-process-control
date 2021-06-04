@@ -20,10 +20,10 @@ final class Attorney extends AbstractMigration
     public function change(): void
     {
         $table = $this->table("attorney");
-        $table->addColumn('name', 'string', ['limit' => 150,'null' => true])
+        $table->addColumn('name', 'string', ['limit' => 150,'null' => false])
             ->addColumn("cpf", 'string',['limit' => 11, 'null' => false])
             ->addColumn('oab', 'string', ['limit' => 50,'null' => false])
-            ->addColumn('telefone', 'string', ['null' => false])
+            ->addColumn('phone', 'string', ['null' => false])
             ->addColumn('email', 'string', ['null' => false])
             ->addColumn('cityid','integer',['null' => false])
             ->addColumn('companyid','integer',['null' => false])
