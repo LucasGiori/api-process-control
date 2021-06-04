@@ -30,7 +30,9 @@ class GetCompanyTypeMiddleware implements MiddlewareInterface
             $queryParams = $request->getQueryParams();
 
             $params = $this->queryParamsValidator->validate(
-                queryParams: $queryParams, entityName: CompanyType::class
+                queryParams: $queryParams,
+                entityName: CompanyType::class,
+                validateWithSymfony: false
             );
 
             return $handler->handle($request->withAttribute("params", $params));

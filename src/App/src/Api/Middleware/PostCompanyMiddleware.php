@@ -8,10 +8,10 @@ use ApiCore\Exception\ExceptionCore;
 use ApiCore\Response\JsonResponseCore;
 use App\Entity\Company;
 use App\Service\CityServiceInterface;
-use App\Service\CompanyServiceInterface;
 use App\Service\CompanyTypeServiceInterface;
 use App\Service\SituationServiceInterface;
 use App\Utils\Constants;
+use App\Utils\Validation\Cnpj;
 use App\Utils\Validation\NotNull;
 use DateTime;
 use Http\StatusHttp;
@@ -65,6 +65,9 @@ class PostCompanyMiddleware implements MiddlewareInterface
                     statusCode: StatusHttp::EXPECTATION_FAILED,
                 );
             }
+
+            //Validate Cnpj is Valid:
+            new Cnpj(cnpj: $companyRequest->getCnpj());
 
             $situation = $this->situationServiceInterface->findById(id: Constants::SITUATION_ACTIVE);
 
