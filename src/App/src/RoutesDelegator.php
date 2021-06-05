@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App;
 
 use App\Api\Handler\DeleteCompanyHandler;
+use App\Api\Handler\GetActionHandler;
+use App\Api\Handler\GetActionTypeHandler;
 use App\Api\Handler\GetAttorneyHandler;
 use App\Api\Handler\GetCityHandler;
 use App\Api\Handler\GetCompanyHandler;
@@ -14,14 +16,18 @@ use App\Api\Handler\GetUserTypeHandler;
 use App\Api\Handler\HomePageHandler;
 use App\Api\Handler\PingHandler;
 use App\Api\Handler\GetStateHandler;
+use App\Api\Handler\PostActionHandler;
 use App\Api\Handler\PostAttorneyHandler;
 use App\Api\Handler\PostCompanyHandler;
 use App\Api\Handler\PostUserHandler;
 use App\Api\Handler\PostUserLoginHandler;
+use App\Api\Handler\PutActionHandler;
 use App\Api\Handler\PutAttorneyHandler;
 use App\Api\Handler\PutCompanyHandler;
 use App\Api\Handler\PutUserHandler;
 use App\Api\Middleware\AuthorizationMiddleware;
+use App\Api\Middleware\GetActionMiddleware;
+use App\Api\Middleware\GetActionTypeMiddleware;
 use App\Api\Middleware\GetAttorneyMiddleware;
 use App\Api\Middleware\GetCityMiddleware;
 use App\Api\Middleware\GetCompanyMiddleware;
@@ -29,11 +35,13 @@ use App\Api\Middleware\GetCompanyTypeMiddleware;
 use App\Api\Middleware\GetStateMiddleware;
 use App\Api\Middleware\GetUserMiddleware;
 use App\Api\Middleware\GetUserTypeMiddleware;
+use App\Api\Middleware\PostActionMiddleware;
 use App\Api\Middleware\PostAttorneyMiddleware;
 use App\Api\Middleware\PostCompanyMiddleware;
 use App\Api\Middleware\PostUserLoginMiddleware;
 use App\Api\Middleware\PostUserMiddleware;
 use App\Api\Middleware\PostUserMiddlewareFactory;
+use App\Api\Middleware\PutActionMiddleware;
 use App\Api\Middleware\PutAttorneyMiddleware;
 use App\Api\Middleware\PutCompanyMiddleware;
 use App\Api\Middleware\PutUserMiddleware;
@@ -52,26 +60,34 @@ class RoutesDelegator
 
         $app->post('/login', [PostUserLoginMiddleware::class, PostUserLoginHandler::class], 'login.get');
 
-        $app->get('/users/types', [GetUserTypeMiddleware::class, GetUserTypeHandler::class], 'users.types.get');
+        $app->get('/users/types', [AuthorizationMiddleware::class, GetUserTypeMiddleware::class, GetUserTypeHandler::class], 'users.types.get');
 
 
         $app->get('/users', [AuthorizationMiddleware::class, GetUserMiddleware::class, GetUserHandler::class], 'users.get');
         $app->put('/users/{id:\d+}', [AuthorizationMiddleware::class, PutUserMiddleware::class, PutUserHandler::class], 'users.put');
         $app->post('/users', [AuthorizationMiddleware::class, PostUserMiddleware::class, PostUserHandler::class], 'users.post');
 
-        $app->get('/states', [GetStateMiddleware::class, GetStateHandler::class], 'states');
-        $app->get('/cities', [GetCityMiddleware::class, GetCityHandler::class], 'cities');
+        $app->get('/states', [AuthorizationMiddleware::class, GetStateMiddleware::class, GetStateHandler::class], 'states');
+        $app->get('/cities', [AuthorizationMiddleware::class, GetCityMiddleware::class, GetCityHandler::class], 'cities');
 
-        $app->get('/companies', [GetCompanyMiddleware::class, GetCompanyHandler::class], 'company.get');
-        $app->put('/companies/{id:\d+}', [PutCompanyMiddleware::class, PutCompanyHandler::class], 'company.put');
-        $app->post('/companies', [PostCompanyMiddleware::class, PostCompanyHandler::class], 'company.post');
-        $app->delete('/companies/{id:\d+}', [DeleteCompanyHandler::class], 'company.delete');
+        $app->get('/companies', [AuthorizationMiddleware::class, GetCompanyMiddleware::class, GetCompanyHandler::class], 'company.get');
+        $app->put('/companies/{id:\d+}', [AuthorizationMiddleware::class, PutCompanyMiddleware::class, PutCompanyHandler::class], 'company.put');
+        $app->post('/companies', [AuthorizationMiddleware::class, PostCompanyMiddleware::class, PostCompanyHandler::class], 'company.post');
+        $app->delete('/companies/{id:\d+}', [AuthorizationMiddleware::class, DeleteCompanyHandler::class], 'company.delete');
 
-        $app->get('/companies/types', [GetCompanyTypeMiddleware::class,GetCompanyTypeHandler::class], 'company.types.get');
+        $app->get('/companies/types', [AuthorizationMiddleware::class, GetCompanyTypeMiddleware::class,GetCompanyTypeHandler::class], 'company.types.get');
 
-        $app->get('/attorney', [GetAttorneyMiddleware::class,GetAttorneyHandler::class], 'attorney.get');
-        $app->put('/attorney/{id:\d+}', [PutAttorneyMiddleware::class,PutAttorneyHandler::class], 'attorney.put');
-        $app->post('/attorney', [PostAttorneyMiddleware::class,PostAttorneyHandler::class], 'attorney.post');
+        $app->get('/attorney', [AuthorizationMiddleware::class, GetAttorneyMiddleware::class,GetAttorneyHandler::class], 'attorney.get');
+        $app->put('/attorney/{id:\d+}', [AuthorizationMiddleware::class, PutAttorneyMiddleware::class,PutAttorneyHandler::class], 'attorney.put');
+        $app->post('/attorney', [AuthorizationMiddleware::class, PostAttorneyMiddleware::class,PostAttorneyHandler::class], 'attorney.post');
+
+
+        $app->get('/actions', [GetActionMiddleware::class,GetActionHandler::class], 'actions.get');
+        $app->put('/actions/{id:\d+}', [PutActionMiddleware::class,PutActionHandler::class], 'actions.put');
+        $app->post('/actions', [PostActionMiddleware::class,PostActionHandler::class], 'actions.post');
+
+        $app->get('/actions/types', [GetActionTypeMiddleware::class,GetActionTypeHandler::class], 'actions.types.get');
+
 
         return $app;
     }

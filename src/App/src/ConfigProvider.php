@@ -4,6 +4,10 @@ namespace App;
 
 use App\Api\Handler\DeleteCompanyHandler;
 use App\Api\Handler\DeleteCompanyHandlerFactory;
+use App\Api\Handler\GetActionHandler;
+use App\Api\Handler\GetActionHandlerFactory;
+use App\Api\Handler\GetActionTypeHandler;
+use App\Api\Handler\GetActionTypeHandlerFactory;
 use App\Api\Handler\GetAttorneyHandler;
 use App\Api\Handler\GetAttorneyHandlerFactory;
 use App\Api\Handler\GetCityHandler;
@@ -20,6 +24,8 @@ use App\Api\Handler\HomePageHandler;
 use App\Api\Handler\PingHandler;
 use App\Api\Handler\GetStateHandler;
 use App\Api\Handler\GetStateHandlerFactory;
+use App\Api\Handler\PostActionHandler;
+use App\Api\Handler\PostActionHandlerFactory;
 use App\Api\Handler\PostAttorneyHandler;
 use App\Api\Handler\PostAttorneyHandlerFactory;
 use App\Api\Handler\PostCompanyHandler;
@@ -28,6 +34,8 @@ use App\Api\Handler\PostUserHandler;
 use App\Api\Handler\PostUserHandlerFactory;
 use App\Api\Handler\PostUserLoginHandler;
 use App\Api\Handler\PostUserLoginHandlerFactory;
+use App\Api\Handler\PutActionHandler;
+use App\Api\Handler\PutActionHandlerFactory;
 use App\Api\Handler\PutAttorneyHandler;
 use App\Api\Handler\PutAttorneyHandlerFactory;
 use App\Api\Handler\PutCompanyHandler;
@@ -36,6 +44,10 @@ use App\Api\Handler\PutUserHandler;
 use App\Api\Handler\PutUserHandlerFactory;
 use App\Api\Middleware\AuthorizationMiddleware;
 use App\Api\Middleware\AuthorizationMiddlewareFactory;
+use App\Api\Middleware\GetActionMiddleware;
+use App\Api\Middleware\GetActionMiddlewareFactory;
+use App\Api\Middleware\GetActionTypeMiddleware;
+use App\Api\Middleware\GetActionTypeMiddlewareFactory;
 use App\Api\Middleware\GetAttorneyMiddleware;
 use App\Api\Middleware\GetAttorneyMiddlewareFactory;
 use App\Api\Middleware\GetCityMiddleware;
@@ -50,6 +62,8 @@ use App\Api\Middleware\GetUserMiddleware;
 use App\Api\Middleware\GetUserMiddlewareFactory;
 use App\Api\Middleware\GetUserTypeMiddleware;
 use App\Api\Middleware\GetUserTypeMiddlewareFactory;
+use App\Api\Middleware\PostActionMiddleware;
+use App\Api\Middleware\PostActionMiddlewareFactory;
 use App\Api\Middleware\PostAttorneyMiddleware;
 use App\Api\Middleware\PostAttorneyMiddlewareFactory;
 use App\Api\Middleware\PostCompanyMiddleware;
@@ -58,12 +72,18 @@ use App\Api\Middleware\PostUserLoginMiddleware;
 use App\Api\Middleware\PostUserLoginMiddlewareFactory;
 use App\Api\Middleware\PostUserMiddleware;
 use App\Api\Middleware\PostUserMiddlewareFactory;
+use App\Api\Middleware\PutActionMiddleware;
+use App\Api\Middleware\PutActionMiddlewareFactory;
 use App\Api\Middleware\PutAttorneyMiddleware;
 use App\Api\Middleware\PutAttorneyMiddlewareFactory;
 use App\Api\Middleware\PutCompanyMiddleware;
 use App\Api\Middleware\PutCompanyMiddlewareFactory;
 use App\Api\Middleware\PutUserMiddleware;
 use App\Api\Middleware\PutUserMiddlewareFactory;
+use App\Service\ActionService;
+use App\Service\ActionServiceFactory;
+use App\Service\ActionTypeService;
+use App\Service\ActionTypeServiceFactory;
 use App\Service\AttorneyService;
 use App\Service\AttorneyServiceFactory;
 use App\Service\AuthenticationTokenService;
@@ -150,7 +170,17 @@ class ConfigProvider
                 PutUserMiddleware::class              => PutUserMiddlewareFactory::class,
                 PutUserHandler::class                 => PutUserHandlerFactory::class,
                 GetUserTypeMiddleware::class          => GetUserTypeMiddlewareFactory::class,
-                GetUserTypeHandler::class             => GetUserTypeHandlerFactory::class
+                GetUserTypeHandler::class             => GetUserTypeHandlerFactory::class,
+                ActionService::class                  => ActionServiceFactory::class,
+                ActionTypeService::class              => ActionTypeServiceFactory::class,
+                GetActionMiddleware::class            => GetActionMiddlewareFactory::class,
+                GetActionTypeMiddleware::class        => GetActionTypeMiddlewareFactory::class,
+                GetActionHandler::class               => GetActionHandlerFactory::class,
+                GetActionTypeHandler::class           => GetActionTypeHandlerFactory::class,
+                PostActionMiddleware::class           => PostActionMiddlewareFactory::class,
+                PostActionHandler::class              => PostActionHandlerFactory::class,
+                PutActionMiddleware::class            => PutActionMiddlewareFactory::class,
+                PutActionHandler::class               => PutActionHandlerFactory::class
             ],
         ];
     }
