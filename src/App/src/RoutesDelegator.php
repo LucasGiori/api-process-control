@@ -11,6 +11,7 @@ use App\Api\Handler\GetAttorneyHandler;
 use App\Api\Handler\GetCityHandler;
 use App\Api\Handler\GetCompanyHandler;
 use App\Api\Handler\GetCompanyTypeHandler;
+use App\Api\Handler\GetProcessHandler;
 use App\Api\Handler\GetUserHandler;
 use App\Api\Handler\GetUserTypeHandler;
 use App\Api\Handler\HomePageHandler;
@@ -19,6 +20,7 @@ use App\Api\Handler\GetStateHandler;
 use App\Api\Handler\PostActionHandler;
 use App\Api\Handler\PostAttorneyHandler;
 use App\Api\Handler\PostCompanyHandler;
+use App\Api\Handler\PostProcessHandler;
 use App\Api\Handler\PostUserHandler;
 use App\Api\Handler\PostUserLoginHandler;
 use App\Api\Handler\PutActionHandler;
@@ -32,12 +34,14 @@ use App\Api\Middleware\GetAttorneyMiddleware;
 use App\Api\Middleware\GetCityMiddleware;
 use App\Api\Middleware\GetCompanyMiddleware;
 use App\Api\Middleware\GetCompanyTypeMiddleware;
+use App\Api\Middleware\GetProcessMiddleware;
 use App\Api\Middleware\GetStateMiddleware;
 use App\Api\Middleware\GetUserMiddleware;
 use App\Api\Middleware\GetUserTypeMiddleware;
 use App\Api\Middleware\PostActionMiddleware;
 use App\Api\Middleware\PostAttorneyMiddleware;
 use App\Api\Middleware\PostCompanyMiddleware;
+use App\Api\Middleware\PostProcessMiddleware;
 use App\Api\Middleware\PostUserLoginMiddleware;
 use App\Api\Middleware\PostUserMiddleware;
 use App\Api\Middleware\PostUserMiddlewareFactory;
@@ -82,11 +86,14 @@ class RoutesDelegator
         $app->post('/attorney', [AuthorizationMiddleware::class, PostAttorneyMiddleware::class,PostAttorneyHandler::class], 'attorney.post');
 
 
-        $app->get('/actions', [GetActionMiddleware::class,GetActionHandler::class], 'actions.get');
-        $app->put('/actions/{id:\d+}', [PutActionMiddleware::class,PutActionHandler::class], 'actions.put');
-        $app->post('/actions', [PostActionMiddleware::class,PostActionHandler::class], 'actions.post');
+        $app->get('/actions', [AuthorizationMiddleware::class,GetActionMiddleware::class,GetActionHandler::class], 'actions.get');
+        $app->put('/actions/{id:\d+}', [AuthorizationMiddleware::class, PutActionMiddleware::class,PutActionHandler::class], 'actions.put');
+        $app->post('/actions', [AuthorizationMiddleware::class,PostActionMiddleware::class,PostActionHandler::class], 'actions.post');
 
-        $app->get('/actions/types', [GetActionTypeMiddleware::class,GetActionTypeHandler::class], 'actions.types.get');
+        $app->get('/actions/types', [AuthorizationMiddleware::class,GetActionTypeMiddleware::class,GetActionTypeHandler::class], 'actions.types.get');
+
+        $app->get('/process', [AuthorizationMiddleware::class,GetProcessMiddleware::class,GetProcessHandler::class], 'process.get');
+        $app->post('/process', [AuthorizationMiddleware::class,PostProcessMiddleware::class,PostProcessHandler::class], 'process.post');
 
 
         return $app;

@@ -28,6 +28,7 @@ class Situation
      *
      * @Type("string")
      * @Assert\NotNull(message="A descrição da situação não pode ser nula")
+     * @Assert\NotBlank(message="A descrição não pode ser vazia")
      */
     private string|null $description;
 

@@ -20,6 +20,11 @@ class CompanyService implements CompanyServiceInterface
         return $this->companyRepositoryInterface->findById(id: $id);
     }
 
+    public function findByIdAndIdtypecompany(int $id, int $idtypecompany): Company|null
+    {
+        return $this->companyRepositoryInterface->findByIdAndIdtypecompany(id: $id, idtypecompany: $idtypecompany);
+    }
+
     public function findByCnpj(string $cnpj): Company|null
     {
         return $this->companyRepositoryInterface->findByCnpj(cnpj: $cnpj);

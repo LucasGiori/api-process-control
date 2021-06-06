@@ -16,6 +16,8 @@ use App\Api\Handler\GetCompanyHandler;
 use App\Api\Handler\GetCompanyHandlerFactory;
 use App\Api\Handler\GetCompanyTypeHandler;
 use App\Api\Handler\GetCompanyTypeHandlerFactory;
+use App\Api\Handler\GetProcessHandler;
+use App\Api\Handler\GetProcessHandlerFactory;
 use App\Api\Handler\GetUserHandler;
 use App\Api\Handler\GetUserHandlerFactory;
 use App\Api\Handler\GetUserTypeHandler;
@@ -30,6 +32,8 @@ use App\Api\Handler\PostAttorneyHandler;
 use App\Api\Handler\PostAttorneyHandlerFactory;
 use App\Api\Handler\PostCompanyHandler;
 use App\Api\Handler\PostCompanyHandlerFactory;
+use App\Api\Handler\PostProcessHandler;
+use App\Api\Handler\PostProcessHandlerFactory;
 use App\Api\Handler\PostUserHandler;
 use App\Api\Handler\PostUserHandlerFactory;
 use App\Api\Handler\PostUserLoginHandler;
@@ -56,6 +60,8 @@ use App\Api\Middleware\GetCompanyMiddleware;
 use App\Api\Middleware\GetCompanyMiddlewareFactory;
 use App\Api\Middleware\GetCompanyTypeMiddleware;
 use App\Api\Middleware\GetCompanyTypeMiddlewareFactory;
+use App\Api\Middleware\GetProcessMiddleware;
+use App\Api\Middleware\GetProcessMiddlewareFactory;
 use App\Api\Middleware\GetStateMiddleware;
 use App\Api\Middleware\GetStateMiddlewareFactory;
 use App\Api\Middleware\GetUserMiddleware;
@@ -68,6 +74,8 @@ use App\Api\Middleware\PostAttorneyMiddleware;
 use App\Api\Middleware\PostAttorneyMiddlewareFactory;
 use App\Api\Middleware\PostCompanyMiddleware;
 use App\Api\Middleware\PostCompanyMiddlewareFactory;
+use App\Api\Middleware\PostProcessMiddleware;
+use App\Api\Middleware\PostProcessMiddlewareFactory;
 use App\Api\Middleware\PostUserLoginMiddleware;
 use App\Api\Middleware\PostUserLoginMiddlewareFactory;
 use App\Api\Middleware\PostUserMiddleware;
@@ -94,6 +102,8 @@ use App\Service\CompanyService;
 use App\Service\CompanyServiceFactory;
 use App\Service\CompanyTypeService;
 use App\Service\CompanyTypeServiceFactory;
+use App\Service\ProcessService;
+use App\Service\ProcessServiceFactory;
 use App\Service\SituationService;
 use App\Service\SituationServiceFactory;
 use App\Service\StateService;
@@ -180,7 +190,12 @@ class ConfigProvider
                 PostActionMiddleware::class           => PostActionMiddlewareFactory::class,
                 PostActionHandler::class              => PostActionHandlerFactory::class,
                 PutActionMiddleware::class            => PutActionMiddlewareFactory::class,
-                PutActionHandler::class               => PutActionHandlerFactory::class
+                PutActionHandler::class               => PutActionHandlerFactory::class,
+                ProcessService::class                 => ProcessServiceFactory::class,
+                PostProcessMiddleware::class          => PostProcessMiddlewareFactory::class,
+                PostProcessHandler::class             => PostProcessHandlerFactory::class,
+                GetProcessMiddleware::class           => GetProcessMiddlewareFactory::class,
+                GetProcessHandler::class              => GetProcessHandlerFactory::class
             ],
         ];
     }

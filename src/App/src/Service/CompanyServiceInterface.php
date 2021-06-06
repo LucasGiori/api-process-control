@@ -14,6 +14,8 @@ interface CompanyServiceInterface
 
     public function findByCnpj(string $cnpj): Company|null;
 
+    public function findByIdAndIdtypecompany(int $id, int $idtypecompany): Company|null;
+
     public function findWithPagination(Params $filter): PaginatedArrayCollection|null;
 
     public function save(Company $company): void;

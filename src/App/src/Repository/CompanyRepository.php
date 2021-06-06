@@ -29,6 +29,17 @@ class CompanyRepository extends PaginatedRepository implements CompanyRepository
     /**
      * @return Company|object|null
      */
+    public function findByIdAndIdtypecompany(int $id, int $idtypecompany): Company|null
+    {
+        return $this->findOneBy([
+            "id" => $id,
+            "companyType" => $idtypecompany
+        ]);
+    }
+
+    /**
+     * @return Company|object|null
+     */
     public function findByCnpj(string $cnpj): Company|null
     {
         return $this->findOneBy([
