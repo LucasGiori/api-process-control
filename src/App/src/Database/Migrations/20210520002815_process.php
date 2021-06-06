@@ -21,9 +21,10 @@ final class Process extends AbstractMigration
     {
         $table = $this->table("process");
         $table->addColumn('number', 'string', ['limit' => 150,'null' => false])
+            ->addColumn('companyid','integer',['null' => false])
             ->addColumn('notificationdate', 'timestamp', ['timezone' => true, 'null'=> true])
-            ->addColumn('description','string')
-            ->addColumn('observation','text')
+            ->addColumn('description','string',['null' => true])
+            ->addColumn('observation','text',['null' => true])
             ->addColumn('created_at', 'timestamp', [
                 'timezone' => true,
                 'default' => Literal::from('now()')
@@ -32,6 +33,7 @@ final class Process extends AbstractMigration
                 'timezone' => true,
                 'default' => Literal::from('now()')
             ])
+            ->addForeignKey('companyid', 'company', 'id')
             ->create();
     }
 }

@@ -21,7 +21,6 @@ final class ProcessMovement extends AbstractMigration
     {
         $table = $this->table("processmovement");
         $table->addColumn('processid','integer',['null' => false])
-            ->addColumn('companyid','integer',['null' => false])
             ->addColumn('officeid','integer',['null' => false])
             ->addColumn('attorneyid','integer',['null' => false])
             ->addColumn('userid','integer',['null' => false])
@@ -37,7 +36,6 @@ final class ProcessMovement extends AbstractMigration
                 'default' => Literal::from('now()')
             ])
             ->addForeignKey('processid', 'process', 'id')
-            ->addForeignKey('companyid', 'company', 'id')
             ->addForeignKey('officeid', 'company', 'id')
             ->addForeignKey('attorneyid', 'attorney', 'id')
             ->addForeignKey('userid', 'users', 'id')
