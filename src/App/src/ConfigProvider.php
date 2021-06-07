@@ -16,8 +16,12 @@ use App\Api\Handler\GetCompanyHandler;
 use App\Api\Handler\GetCompanyHandlerFactory;
 use App\Api\Handler\GetCompanyTypeHandler;
 use App\Api\Handler\GetCompanyTypeHandlerFactory;
+use App\Api\Handler\GetLastMoveProcessHandler;
+use App\Api\Handler\GetLastMoveProcessHandlerFactory;
 use App\Api\Handler\GetProcessHandler;
 use App\Api\Handler\GetProcessHandlerFactory;
+use App\Api\Handler\GetProcessMovementHandler;
+use App\Api\Handler\GetProcessMovementHandlerFactory;
 use App\Api\Handler\GetUserHandler;
 use App\Api\Handler\GetUserHandlerFactory;
 use App\Api\Handler\GetUserTypeHandler;
@@ -34,6 +38,8 @@ use App\Api\Handler\PostCompanyHandler;
 use App\Api\Handler\PostCompanyHandlerFactory;
 use App\Api\Handler\PostProcessHandler;
 use App\Api\Handler\PostProcessHandlerFactory;
+use App\Api\Handler\PostProcessMovementHandler;
+use App\Api\Handler\PostProcessMovementHandlerFactory;
 use App\Api\Handler\PostUserHandler;
 use App\Api\Handler\PostUserHandlerFactory;
 use App\Api\Handler\PostUserLoginHandler;
@@ -44,6 +50,8 @@ use App\Api\Handler\PutAttorneyHandler;
 use App\Api\Handler\PutAttorneyHandlerFactory;
 use App\Api\Handler\PutCompanyHandler;
 use App\Api\Handler\PutCompanyHandlerFactory;
+use App\Api\Handler\PutProcessHandler;
+use App\Api\Handler\PutProcessHandlerFactory;
 use App\Api\Handler\PutUserHandler;
 use App\Api\Handler\PutUserHandlerFactory;
 use App\Api\Middleware\AuthorizationMiddleware;
@@ -62,6 +70,8 @@ use App\Api\Middleware\GetCompanyTypeMiddleware;
 use App\Api\Middleware\GetCompanyTypeMiddlewareFactory;
 use App\Api\Middleware\GetProcessMiddleware;
 use App\Api\Middleware\GetProcessMiddlewareFactory;
+use App\Api\Middleware\GetProcessMovementMiddleware;
+use App\Api\Middleware\GetProcessMovementMiddlewareFactory;
 use App\Api\Middleware\GetStateMiddleware;
 use App\Api\Middleware\GetStateMiddlewareFactory;
 use App\Api\Middleware\GetUserMiddleware;
@@ -76,6 +86,8 @@ use App\Api\Middleware\PostCompanyMiddleware;
 use App\Api\Middleware\PostCompanyMiddlewareFactory;
 use App\Api\Middleware\PostProcessMiddleware;
 use App\Api\Middleware\PostProcessMiddlewareFactory;
+use App\Api\Middleware\PostProcessMovementMiddleware;
+use App\Api\Middleware\PostProcessMovementMiddlewareFactory;
 use App\Api\Middleware\PostUserLoginMiddleware;
 use App\Api\Middleware\PostUserLoginMiddlewareFactory;
 use App\Api\Middleware\PostUserMiddleware;
@@ -86,6 +98,8 @@ use App\Api\Middleware\PutAttorneyMiddleware;
 use App\Api\Middleware\PutAttorneyMiddlewareFactory;
 use App\Api\Middleware\PutCompanyMiddleware;
 use App\Api\Middleware\PutCompanyMiddlewareFactory;
+use App\Api\Middleware\PutProcessMiddleware;
+use App\Api\Middleware\PutProcessMiddlewareFactory;
 use App\Api\Middleware\PutUserMiddleware;
 use App\Api\Middleware\PutUserMiddlewareFactory;
 use App\Service\ActionService;
@@ -102,6 +116,8 @@ use App\Service\CompanyService;
 use App\Service\CompanyServiceFactory;
 use App\Service\CompanyTypeService;
 use App\Service\CompanyTypeServiceFactory;
+use App\Service\ProcessMovementService;
+use App\Service\ProcessMovementServiceFactory;
 use App\Service\ProcessService;
 use App\Service\ProcessServiceFactory;
 use App\Service\SituationService;
@@ -195,7 +211,15 @@ class ConfigProvider
                 PostProcessMiddleware::class          => PostProcessMiddlewareFactory::class,
                 PostProcessHandler::class             => PostProcessHandlerFactory::class,
                 GetProcessMiddleware::class           => GetProcessMiddlewareFactory::class,
-                GetProcessHandler::class              => GetProcessHandlerFactory::class
+                GetProcessHandler::class              => GetProcessHandlerFactory::class,
+                ProcessMovementService::class         => ProcessMovementServiceFactory::class,
+                PostProcessMovementMiddleware::class  => PostProcessMovementMiddlewareFactory::class,
+                PostProcessMovementHandler::class     => PostProcessMovementHandlerFactory::class,
+                GetProcessMovementMiddleware::class   => GetProcessMovementMiddlewareFactory::class,
+                GetProcessMovementHandler::class      => GetProcessMovementHandlerFactory::class,
+                GetLastMoveProcessHandler::class      => GetLastMoveProcessHandlerFactory::class,
+                PutProcessMiddleware::class           => PutProcessMiddlewareFactory::class,
+                PutProcessHandler::class              => PutProcessHandlerFactory::class
             ],
         ];
     }

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="processmovement")
- * @ORM\Entity(repositoryClass="App\Repository\ProcessRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ProcessMovementRepository")
  */
 class ProcessMovement
 {

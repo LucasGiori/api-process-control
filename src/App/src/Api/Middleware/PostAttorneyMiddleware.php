@@ -11,6 +11,7 @@ use App\Service\CityServiceInterface;
 use App\Service\CompanyServiceInterface;
 use App\Service\SituationServiceInterface;
 use App\Utils\Constants;
+use App\Utils\Validation\Cpf;
 use App\Utils\Validation\NotNull;
 use DateTime;
 use Http\StatusHttp;
@@ -71,6 +72,9 @@ class PostAttorneyMiddleware implements MiddlewareInterface
 
             $city = $this->cityServiceInterface->findById(id: $attorneyRequest->getCity()->getId());
             NotNull::validate(value: $city,message: "Não existe nenhuma cidade com este identificador!");
+
+            //Validate Cpf is Valid:
+            new Cpf(cpf: $attorneyRequest->getCpf());
 
             $attorneyRequest->setCreatedAt(createdAt: new DateTime());
             $attorneyRequest->setSituation(situation: $situation);

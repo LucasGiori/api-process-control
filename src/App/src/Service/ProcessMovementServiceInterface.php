@@ -1,14 +1,14 @@
 <?php
 
 
-namespace App\Repository;
+namespace App\Service;
 
 
 use App\Entity\ProcessMovement;
 use DoctrinePagination\Collection\PaginatedArrayCollection;
 use DoctrinePagination\DTO\Params;
 
-interface ProcessMovementRepositoryInterface
+interface ProcessMovementServiceInterface
 {
     public function findById(int $id): ProcessMovement|null;
 
