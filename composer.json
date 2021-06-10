@@ -43,6 +43,7 @@
         "tuupola/cors-middleware": "dev-master"
     },
     "require-dev": {
+        "fakerphp/faker": "1.15.x-dev",
         "filp/whoops": "^2.7.1",
         "laminas/laminas-coding-standard": "^2.1",
         "laminas/laminas-development-mode": "^3.2",

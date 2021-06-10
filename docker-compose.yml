@@ -33,8 +33,6 @@ services:
       - POSTGRES_USER
       - POSTGRES_DB
       - POSTGRES_PASSWORD
-
-    network_mode: bridge
     tty: true
   as-doc:
     container_name: ${CONTAINER_NAME_DOC}
