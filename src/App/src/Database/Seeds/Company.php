@@ -7,14 +7,16 @@ use Phinx\Seed\AbstractSeed;
 class Company extends AbstractSeed
 {
     public const QTD_COMPANY_GENERATE = 15;
-    /**
-     * Run Method.
-     *
-     * Write your database seeder using this method.
-     *
-     * More information on writing seeders is available here:
-     * https://book.cakephp.org/phinx/0/en/seeding.html
-     */
+
+    public function getDependencies()
+    {
+        return [
+            'City',
+            'CompanyType',
+            'Situation'
+        ];
+    }
+
     public function run()
     {
         $faker = Factory::create("pt_BR");

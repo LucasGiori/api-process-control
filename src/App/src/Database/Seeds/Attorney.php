@@ -25,6 +25,7 @@ class Attorney extends AbstractSeed
         $attorney = [];
 
         for ($i = 0; $i < self::QTD_ATTORNEY_GENERATE; $i ++) {
+            shuffle($office);
             array_push($attorney, [
                 'name' => $faker->name(),
                 'cpf' => $faker->cpf(false),
@@ -32,7 +33,7 @@ class Attorney extends AbstractSeed
                 'phone' => $faker->cellphoneNumber(),
                 'email' => sprintf("%s@gmail.com", $faker->lastName()),
                 'cityid' => $faker->numberBetween(1, 2246),
-                'companyid' => $office[$faker->numberBetween(1, count($office))]["id"],
+                'companyid' => $office[0]["id"],
                 'situationid' => $faker->numberBetween(1, 2)
             ]);
         }

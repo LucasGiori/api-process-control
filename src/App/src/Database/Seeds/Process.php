@@ -11,7 +11,8 @@ class Process extends AbstractSeed
     public function getDependencies()
     {
         return [
-            'Company'
+            'Company',
+            'User'
         ];
     }
 
@@ -29,28 +30,21 @@ class Process extends AbstractSeed
            return $company["companytypeid"] === 1;
         });
 
-        $companyTypeOffice = array_filter(array: $companies,callback: function($company) {
-            return $company["companytypeid"] === 2;
-        });
-
-
         $process = [];
-        $processMovement = [];
 
         for ($i = 0; $i < self::QTD_PROCESS_GENERATE; $i ++) {
-            array_push($attorney, [
+            shuffle($companyTypeGazin);
+            array_push($process, [
                 'number' => $faker->unique()->randomNumber(5, false),
-                'companyid' => array_rand(array: $companyTypeGazin)["id"],
+                'companyid' => $companyTypeGazin[0]["id"],
                 'notificationdate' => $faker->date('Y-m-d'),
                 'description' => $faker->sentence(4),
                 'observation' => $faker->paragraph(2, false),
-                'email' => sprintf("%s@gmail.com", $faker->lastName()),
-                'cityid' => $faker->numberBetween(1, 2246),
-
-                'situationid' => $faker->numberBetween(1, 2)
+                'status' => $faker->boolean(),
+                'userid' => 1
             ]);
         }
 
-        $this->insert("attorney", $attorney);
+        $this->insert("process", $process);
     }
 }

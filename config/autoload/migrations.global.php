@@ -17,7 +17,7 @@ return [
         "dev"                     => [
             "adapter" => getenv("ADAPTER"),
             "host"    => getenv("CONTAINER_HOST_DB"),
-            "port"    => getenv("PORT_DB"),
+            "port"    => '5432',//getenv("PORT_DB"),
             "user"    => getenv("POSTGRES_USER"),
             "pass"    => getenv("POSTGRES_PASSWORD"),
             "name"    => getenv("POSTGRES_DB"),

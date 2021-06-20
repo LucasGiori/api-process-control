@@ -14,7 +14,7 @@ return [
                     'driverClass' => Driver::class,
                     'charset'     => getenv('CHARSET_DB'),
                     'host'        => getenv('CONTAINER_HOST_DB'),
-                    'port'        => getenv('PORT_DB'),
+                    'port'        => '5432',//getenv('PORT_DB'),
                     'user'        => getenv('POSTGRES_USER'),
                     'password'    => getenv('POSTGRES_PASSWORD'),
                     'dbname'      => getenv('POSTGRES_DB'),
