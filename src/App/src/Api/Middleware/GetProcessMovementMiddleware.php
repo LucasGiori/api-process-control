@@ -30,7 +30,7 @@ class GetProcessMovementMiddleware implements MiddlewareInterface
             $queryParams = $request->getQueryParams();
 
             $params = $this->queryParamsValidator->validate(
-                queryParams: $queryParams, entityName: ProcessMovement::class
+                queryParams: $queryParams, entityName: ProcessMovement::class, validateWithSymfony: false
             );
 
             return $handler->handle($request->withAttribute("params", $params));

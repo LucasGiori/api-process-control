@@ -103,6 +103,13 @@ class Process
      */
     private Collection|null $movements = null;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ItemActionProcess", mappedBy="process", cascade={"persist"})
+     *
+     * @Type("ArrayCollection<App\Entity\ItemActionProcess>")
+     */
+    private Collection|null $items = null;
+
 
     public function getId(): int
     {
@@ -220,5 +227,15 @@ class Process
     public function setMovements(Collection|null $movements): void
     {
         $this->movements = $movements;
+    }
+
+    public function getItems(): Collection|null
+    {
+        return $this->items;
+    }
+
+    public function setItems(Collection|null $items): void
+    {
+        $this->items = $items;
     }
 }

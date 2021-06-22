@@ -49,6 +49,9 @@ class ProcessRepository extends PaginatedRepository implements ProcessRepository
             $movements = $process->getMovements();
             $process->setMovements(movements: null);
 
+            $items = $process->getItems();
+            $process->setItems(items: null);
+
             $this->getEntityManager()->persist($process);
             $this->getEntityManager()->flush();
 
@@ -59,6 +62,11 @@ class ProcessRepository extends PaginatedRepository implements ProcessRepository
                 $this->getEntityManager()->flush();
             }
 
+            foreach ($items->toArray() as $itemActionProcess) {
+                $itemActionProcess->setProcess(process: $process);
+                $this->getEntityManager()->persist($itemActionProcess);
+                $this->getEntityManager()->flush();
+            }
             return $process;
         } catch (ConstraintViolationException $e) {
             throw new SaveProcessException(
@@ -78,8 +86,17 @@ class ProcessRepository extends PaginatedRepository implements ProcessRepository
     public function update(Process $process): Process
     {
         try {
+//            $items = $process->getItems();
+//            $process->setItems(items: null);
+
             $this->getEntityManager()->persist($process);
             $this->getEntityManager()->flush();
+
+//            foreach ($items->toArray() as $itemActionProcess) {
+//                $itemActionProcess->setProcess(process: $process);
+//                $this->getEntityManager()->persist($itemActionProcess);
+//                $this->getEntityManager()->flush();
+//            }
 
             return $process;
         } catch (ConstraintViolationException $e) {

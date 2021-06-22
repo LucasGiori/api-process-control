@@ -4,6 +4,7 @@
 namespace App\Api\Middleware;
 
 
+use App\Service\ActionService;
 use App\Service\AttorneyService;
 use App\Service\CompanyService;
 use App\Service\ProcessService;
@@ -18,16 +19,16 @@ class PutProcessMiddlewareFactory
     {
         $validator                  = $container->get(ValidationSymfony::class);
         $deserialization            = $container->get(Deserialization::class);
-        $companyService             = $container->get(CompanyService::class);
         $userService                = $container->get(UserService::class);
         $processService             = $container->get(ProcessService::class);
-        $attorneyService            = $container->get(AttorneyService::class);
+        $actionService              = $container->get(ActionService::class);
 
         return new PutProcessMiddleware(
             deserialization: $deserialization,
             validation: $validator,
             userServiceInterface: $userService,
-            processServiceInterface: $processService
+            processServiceInterface: $processService,
+            actionServiceInterface: $actionService
         );
     }
 }

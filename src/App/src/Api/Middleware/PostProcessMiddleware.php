@@ -6,8 +6,11 @@ namespace App\Api\Middleware;
 
 use ApiCore\Exception\ExceptionCore;
 use ApiCore\Response\JsonResponseCore;
+use App\Entity\Action;
+use App\Entity\ItemActionProcess;
 use App\Entity\Process;
 use App\Entity\ProcessMovement;
+use App\Service\ActionServiceInterface;
 use App\Service\AttorneyServiceInterface;
 use App\Service\CompanyServiceInterface;
 use App\Service\ProcessServiceInterface;
@@ -16,6 +19,7 @@ use App\Service\UserServiceInterface;
 use App\Utils\Constants;
 use App\Utils\Validation\NotNull;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Http\StatusHttp;
 use Infrastructure\Domain\Exceptions\SymfonyValidationException;
 use Infrastructure\Domain\Exceptions\ValidationException;
@@ -27,6 +31,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Doctrine\Common\Collections\Collection;
 use Throwable;
 
 class PostProcessMiddleware implements MiddlewareInterface
@@ -39,7 +44,8 @@ class PostProcessMiddleware implements MiddlewareInterface
         private CompanyServiceInterface $companyServiceInterface,
         private UserServiceInterface $userServiceInterface,
         private ProcessServiceInterface $processServiceInterface,
-        private AttorneyServiceInterface $attorneyServiceInterface
+        private AttorneyServiceInterface $attorneyServiceInterface,
+        private ActionServiceInterface $actionServiceInterface
     ){}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -127,6 +133,22 @@ class PostProcessMiddleware implements MiddlewareInterface
                 $movement->setUpdatedAt(updatedAt: $now);
             }
 
+
+            $items = array_map(
+                callback: function($itemActionProcess) {
+                    $actionEntity = $this->actionServiceInterface->findById(id: $itemActionProcess->getAction()->getId());
+                    NotNull::validate(value: $actionEntity, message: "Não existe nenhuma ação com este identificador!");
+
+                    $itemActionProcess->setAction(action: $actionEntity);
+
+                    return $itemActionProcess;
+                },
+                array: $processRequest->getItems()?->toArray() ?? []
+            );
+
+            $collectionActions = new ArrayCollection($items ?? []);
+
+            $processRequest->setItems(items: $collectionActions);
             $processRequest->setCompany(company: $company);
             $processRequest->setUser(user: $user);
             $processRequest->setStatus(status: Constants::STATUS_ACTIVE);

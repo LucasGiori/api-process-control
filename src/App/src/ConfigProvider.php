@@ -116,6 +116,8 @@ use App\Service\CompanyService;
 use App\Service\CompanyServiceFactory;
 use App\Service\CompanyTypeService;
 use App\Service\CompanyTypeServiceFactory;
+use App\Service\ItemActionProcessService;
+use App\Service\ItemActionProcessServiceFactory;
 use App\Service\ProcessMovementService;
 use App\Service\ProcessMovementServiceFactory;
 use App\Service\ProcessService;
@@ -219,7 +221,8 @@ class ConfigProvider
                 GetProcessMovementHandler::class      => GetProcessMovementHandlerFactory::class,
                 GetLastMoveProcessHandler::class      => GetLastMoveProcessHandlerFactory::class,
                 PutProcessMiddleware::class           => PutProcessMiddlewareFactory::class,
-                PutProcessHandler::class              => PutProcessHandlerFactory::class
+                PutProcessHandler::class              => PutProcessHandlerFactory::class,
+                ItemActionProcessService::class       => ItemActionProcessServiceFactory::class
             ],
         ];
     }

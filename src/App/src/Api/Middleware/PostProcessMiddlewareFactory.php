@@ -4,6 +4,7 @@
 namespace App\Api\Middleware;
 
 
+use App\Service\ActionService;
 use App\Service\AttorneyService;
 use App\Service\CompanyService;
 use App\Service\ProcessService;
@@ -23,6 +24,7 @@ class PostProcessMiddlewareFactory
         $userService                = $container->get(UserService::class);
         $processService             = $container->get(ProcessService::class);
         $attorneyService            = $container->get(AttorneyService::class);
+        $actionService              = $container->get(ActionService::class);
 
         return new PostProcessMiddleware(
             deserialization: $deserialization,
@@ -30,7 +32,8 @@ class PostProcessMiddlewareFactory
             companyServiceInterface: $companyService,
             userServiceInterface: $userService,
             processServiceInterface: $processService,
-            attorneyServiceInterface: $attorneyService
+            attorneyServiceInterface: $attorneyService,
+            actionServiceInterface: $actionService
         );
     }
 }

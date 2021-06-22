@@ -8,6 +8,7 @@ use ApiCore\Exception\ExceptionCore;
 use ApiCore\Response\JsonResponseCore;
 use App\Entity\Process;
 use App\Entity\ProcessMovement;
+use App\Service\ActionServiceInterface;
 use App\Service\AttorneyServiceInterface;
 use App\Service\CompanyServiceInterface;
 use App\Service\ProcessServiceInterface;
@@ -15,6 +16,7 @@ use App\Service\UserServiceInterface;
 use App\Utils\Constants;
 use App\Utils\Validation\NotNull;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Http\StatusHttp;
 use Infrastructure\Domain\Exceptions\BaseException;
 use Infrastructure\Domain\Exceptions\SymfonyValidationException;
@@ -38,7 +40,8 @@ class PutProcessMiddleware implements MiddlewareInterface
         private DeserializationInterface $deserialization,
         private ValidationSymfonyInterface $validation,
         private UserServiceInterface $userServiceInterface,
-        private ProcessServiceInterface $processServiceInterface
+        private ProcessServiceInterface $processServiceInterface,
+        private ActionServiceInterface $actionServiceInterface
     ){}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -76,7 +79,7 @@ class PutProcessMiddleware implements MiddlewareInterface
             $user = $this->userServiceInterface->findById(id: intval($tokenData["userData"]["id"]));
             if(is_null($user) || $user->getStatus() !== Constants::STATUS_ACTIVE) {
                 throw new ValidationException(
-                    message: "Usuario inválido ou desativado",
+                    message: "Usuário inválido ou desativado",
                     statusCode: StatusHttp::EXPECTATION_FAILED
                 );
             }
@@ -96,6 +99,25 @@ class PutProcessMiddleware implements MiddlewareInterface
             $processEntity->setObservation(
                 observation: $processRequest?->getObservation() ?? $processEntity->getObservation()
             );
+
+            if($processRequest?->getItems()) {
+                $items = array_map(
+                    callback: function($itemActionProcess) use ($processEntity){
+                        $actionEntity = $this->actionServiceInterface->findById(id: $itemActionProcess->getAction()->getId());
+                        NotNull::validate(value: $actionEntity, message: "Não existe nenhuma ação com este identificador!");
+
+                        $itemActionProcess->setAction(action: $actionEntity);
+                        $itemActionProcess->setProcess(process: $processEntity);
+
+                        return $itemActionProcess;
+                    },
+                    array: $processRequest->getItems()->toArray()
+                );
+
+                $items = new ArrayCollection($items ?? []);
+
+                $processEntity->setItems(items: $items);
+            }
 
             return $handler->handle($request->withAttribute("process", $processEntity));
         } catch (Throwable $e) {
